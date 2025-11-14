@@ -73,8 +73,7 @@ const calculate_tax = async (orderAmount, currency) => {
 
 //app.post('/create-payment-intent', async (req, res) => {
   //const { paymentMethodType, currency, paymentMethodOptions } = req.body;
-
-//MCROSBY FROM GPT
+//MCROSBY VIA GPT
 app.post("/create-payment-intent", async (req, res) => {
   const { amount, currency } = req.body;
 
@@ -99,7 +98,7 @@ app.post("/create-payment-intent", async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 });
-//END MCROSBY FROM GPT
+//END MCROSBY VIA GPT
   // Each payment method type has support for different currencies. In order to
   // support many payment method types and several currencies, this server
   // endpoint accepts both the payment method type and the currency as
@@ -108,8 +107,8 @@ app.post("/create-payment-intent", async (req, res) => {
   // at https://dashboard.stripe.com/settings/payment_methods.
   //
   // Some example payment method types include `card`, `ideal`, and `link`.
-  let orderAmount = 5999;
-  let params = {};
+  //let orderAmount = 5999;
+  //let params = {};
 
   if (calculateTax) {
     let taxCalculation = await calculate_tax(orderAmount, currency)
