@@ -75,7 +75,8 @@ const calculate_tax = async (orderAmount, currency) => {
   //const { paymentMethodType, currency, paymentMethodOptions } = req.body;
 //MCROSBY VIA GPT
 app.post("/create-payment-intent", async (req, res) => {
-  const { amount, currency } = req.body;
+  const { amount, currency, email } = req.body; // ← ADD email here
+
 
   // 🛡️ Simple validation
   if (!amount || typeof amount !== 'number') {
