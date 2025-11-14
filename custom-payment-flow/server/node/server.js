@@ -83,9 +83,17 @@ app.post("/create-payment-intent", async (req, res) => {
   }
 
   try {
+        // 🆕 Create a customer with email
+    const customer = await stripe.customers.create({
+      email: email
+    });
+
+    // 🧾 Create PaymentIntent with customer
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,                      // 👈 dynamic from client
       currency: currency || "usd",         // optional override
+      customer: customer.id,
+      receipt_email: email, // ✅ This is optional if customer has email
       automatic_payment_methods: {
         enabled: true,
       },
