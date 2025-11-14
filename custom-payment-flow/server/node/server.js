@@ -71,9 +71,35 @@ const calculate_tax = async (orderAmount, currency) => {
   return taxCalculation;
 };
 
-app.post('/create-payment-intent', async (req, res) => {
-  const { paymentMethodType, currency, paymentMethodOptions } = req.body;
+//app.post('/create-payment-intent', async (req, res) => {
+  //const { paymentMethodType, currency, paymentMethodOptions } = req.body;
 
+//MCROSBY FROM GPT
+app.post("/create-payment-intent", async (req, res) => {
+  const { amount, currency } = req.body;
+
+  // 🛡️ Simple validation
+  if (!amount || typeof amount !== 'number') {
+    return res.status(400).json({ error: "Missing or invalid 'amount'" });
+  }
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,                      // 👈 dynamic from client
+      currency: currency || "usd",         // optional override
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+//END MCROSBY FROM GPT
   // Each payment method type has support for different currencies. In order to
   // support many payment method types and several currencies, this server
   // endpoint accepts both the payment method type and the currency as
