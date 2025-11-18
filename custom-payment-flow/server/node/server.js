@@ -166,6 +166,16 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 });
 
+app.post('/connection_token', async (req, res) => {
+  try {
+    const connectionToken = await stripe.terminal.connectionTokens.create();
+    res.json({ secret: connectionToken.secret });
+  } catch (err) {
+    console.error('Failed to create connection token:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(4242, () =>
   console.log(`Node server listening at http://localhost:4242`)
 );
